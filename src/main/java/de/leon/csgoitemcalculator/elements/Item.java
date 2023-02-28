@@ -1,19 +1,19 @@
 package de.leon.csgoitemcalculator.elements;
 
 import de.leon.csgoitemcalculator.controller.ItemController;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 /**
  * Class for visualisation of items
  */
-public class Item extends HBox {
+public class Item extends Pane implements Initializable {
 
     private ObjectProperty<String> itemName = new SimpleObjectProperty<>();
     private ObjectProperty<Boolean> itemActive = new SimpleObjectProperty<>();
@@ -24,12 +24,14 @@ public class Item extends HBox {
     ItemController itemController;
 
     public Item() {
-
         super();
+    }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("item.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("item-layout.fxml"));
 
             itemController = new ItemController();
             loader.setController(itemController);
@@ -43,11 +45,9 @@ public class Item extends HBox {
             itemController.getItemPrice().textProperty().bind(itemPrice);
             itemController.getItemsValue().textProperty().bind(itemsValue);
 
-        } catch (Exception ignore) { }
-
+        } catch (Exception ignore) {
+        }
     }
-
-
 
     public void setLabelLength(double length) {
         itemController.setLabelLength(length);
@@ -96,4 +96,5 @@ public class Item extends HBox {
     public void setItemsValue(String itemsValue) {
         this.itemsValue.set(itemsValue);
     }
+
 }

@@ -1,18 +1,20 @@
 package de.leon.csgoitemcalculator.controller;
 
-import de.leon.csgoitemcalculator.ItemData;
 import de.leon.csgoitemcalculator.elements.Item;
-import java.lang.reflect.Array;
+import de.leon.csgoitemcalculator.elements.ItemZwei;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.VPos;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 
-public class MainController {
+public class MainController implements Initializable {
 
     @FXML
     private GridPane mainGrid;
@@ -21,10 +23,22 @@ public class MainController {
     @FXML
     private GridPane rightItemGrid;
 
+    private ItemZwei itemZwei;
+
     List<Item> itemList = new ArrayList<>();
     List<List<Item>> itemArray = new ArrayList<>();
 
     public MainController() {
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        init();
+    }
+
+
+
+    public void init() {
 
         Item item = new Item();
         item.setItemName("Test");
@@ -39,12 +53,20 @@ public class MainController {
         itemList.add(item);
         itemList.add(item);
 
-        itemList.forEach(itemVar -> {
+        leftItemGrid.addRow(0, new Button("Test1"));
+        leftItemGrid.getRowConstraints().add(getRowConstraint(30.0, Priority.NEVER, VPos.CENTER, true));
+        leftItemGrid.addRow(1, new Button("Test2"));
+        leftItemGrid.getRowConstraints().add(getRowConstraint(30.0, Priority.NEVER, VPos.CENTER, true));
+        leftItemGrid.addRow(2, new Button("Test3"));
+        leftItemGrid.addRow(3, new ItemZwei());
+
+        /*itemList.forEach(itemVar -> {
 
             if (leftItemGrid.getRowCount() <= rightItemGrid.getRowCount()) {
                 // item links hinzufügen
                 int index = leftItemGrid.getRowCount() - 1;
-                leftItemGrid.addRow(index, itemVar);
+                //leftItemGrid.addRow(index, itemVar);
+                leftItemGrid.addRow(index, new Button("Test"));
                 leftItemGrid.getRowConstraints().get(index).setVgrow(Priority.NEVER);
                 itemArray.get(0).add(index, itemVar);
             } else {
@@ -56,7 +78,7 @@ public class MainController {
             }
 
         });
-
+         */
     }
 
     private void updateLengthForAllItemLabels() {
@@ -78,5 +100,13 @@ public class MainController {
             item.setLabelLength(length);
         });
 
+    }
+
+    private RowConstraints getRowConstraint(double minHeight, double prefHeight, double maxHeight, Priority vGrow, VPos vAlignment, boolean fillHeight) {
+        return new RowConstraints(minHeight, prefHeight, maxHeight, vGrow, vAlignment, fillHeight);
+    }
+
+    private RowConstraints getRowConstraint(double prefHeight, Priority vGrow, VPos vAlignment, boolean fillHeight) {
+        return getRowConstraint(Double.NEGATIVE_INFINITY, prefHeight, Double.NEGATIVE_INFINITY, vGrow, vAlignment, fillHeight);
     }
 }
