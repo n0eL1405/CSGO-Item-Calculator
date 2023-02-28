@@ -11,6 +11,7 @@ import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 
 public class MainController implements Initializable {
@@ -21,8 +22,6 @@ public class MainController implements Initializable {
     private GridPane leftItemGrid;
     @FXML
     private GridPane rightItemGrid;
-
-    private Item item;
 
     List<Item> itemList = new ArrayList<>();
     List<List<Item>> itemArray = new ArrayList<>();
@@ -50,45 +49,50 @@ public class MainController implements Initializable {
         itemList.add(item.copy());
         itemList.add(item.copy());
         itemList.add(item.copy());
+        itemList.add(new Item("Test 12345", true, "ad", "ad", "ads"));
 
-        // replace with method that adds 'ArrayList<Item>'s depending on columns
-        itemArray.add(new ArrayList<>());
-        itemArray.add(new ArrayList<>());
-
-        /*
-        leftItemGrid.addRow(0, new Button("Test1"));
-        leftItemGrid.getRowConstraints().add(getRowConstraint(30.0, Priority.NEVER, VPos.CENTER, true));
-        leftItemGrid.addRow(1, new Button("Test2"));
-        leftItemGrid.getRowConstraints().add(getRowConstraint(30.0, Priority.NEVER, VPos.CENTER, true));
-        leftItemGrid.addRow(2, new Button("Test3"));
-        leftItemGrid.addRow(3, new Item());
-         */
+        // adding List<Item> for each column in mainGrid
+        for (int i = 0; i < mainGrid.getColumnCount(); i++) {
+            itemArray.add(new ArrayList<>());
+        }
 
         itemList.forEach(itemVar -> {
+
             if (leftItemGrid.getRowCount() <= rightItemGrid.getRowCount()) {
-                // item links hinzufügen
+                // add items left
                 int index = leftItemGrid.getRowCount();
                 leftItemGrid.getRowConstraints().add(getRowConstraint(30.0, Priority.NEVER, VPos.CENTER, true));
                 leftItemGrid.addRow(index, itemVar);
                 itemArray.get(0).add(index, itemVar);
             } else {
-                // item rechts hinzufügen
+                // add items right
                 int index = rightItemGrid.getRowCount();
                 rightItemGrid.getRowConstraints().add(getRowConstraint(30.0, Priority.NEVER, VPos.CENTER, true));
                 rightItemGrid.addRow(index, itemVar);
                 itemArray.get(1).add(index, itemVar);
             }
-
         });
+
+        updateLengthForAllItemLabels();
     }
 
     private void updateLengthForAllItemLabels() {
 
-        double[] length = {0};
+        Double[] length = {0.0};
 
-        itemList.forEach(item -> {
-            if (item.getLabelLength() > length[0]) {
-                length[0] = item.getLabelLength();
+        itemArray.get(0).forEach(child -> {
+            double labelLength = child.prefWidth(-1);
+
+            if (labelLength > length[0]) {
+                length[0] = labelLength;
+            }
+        });
+
+        itemArray.get(1).forEach(child -> {
+            double labelLength = child.prefWidth(-1);
+
+            if (labelLength > length[0]) {
+                length[0] = labelLength;
             }
         });
 
@@ -97,8 +101,12 @@ public class MainController implements Initializable {
 
     private void setLengthForAllItemLabels(double length) {
 
-        itemList.forEach(item -> {
-            item.setLabelLength(length);
+        itemArray.get(0).forEach(child -> {
+            child.getItemNameLabel().setPrefWidth(length);
+        });
+
+        itemArray.get(1).forEach(child -> {
+            child.getItemNameLabel().setPrefWidth(length);
         });
 
     }

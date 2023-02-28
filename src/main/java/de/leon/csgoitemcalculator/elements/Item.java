@@ -5,6 +5,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import lombok.Getter;
 
 public class Item extends HBox {
 
@@ -19,8 +21,6 @@ public class Item extends HBox {
     private TextField itemsValue;
 
     public Item() {
-        //getStylesheets().add(ItemZwei.class.getResource("itemStyle.css").toExternalForm());
-
         intUi();
     }
 
@@ -37,7 +37,7 @@ public class Item extends HBox {
     private void intUi() {
 
         itemName = new Label();
-        itemName.setText("TestItem");
+        itemName.setMinWidth(Region.USE_PREF_SIZE);
         itemActiveCheckBox = new CheckBox();
         itemPrice = new TextField();
         itemPrice.setEditable(false);
@@ -51,12 +51,9 @@ public class Item extends HBox {
         getChildren().addAll(itemName, itemActiveCheckBox, itemPrice, itemAmount, itemsValue);
     }
 
-    public void setLabelLength(double length) {
-        itemName.setMinWidth(length);
-    }
-
-    public double getLabelLength() {
-        return itemName.getWidth();
+    public void resetLabelLength() {
+        itemName.setMinWidth(Region.USE_PREF_SIZE);
+        itemName.setPrefWidth(Region.USE_PREF_SIZE);
     }
 
     public String getItemName() {
@@ -97,6 +94,10 @@ public class Item extends HBox {
 
     public void setItemsValue(String value) {
         this.itemsValue.setText(value);
+    }
+
+    public Label getItemNameLabel() {
+        return itemName;
     }
 
     public Item copy() {

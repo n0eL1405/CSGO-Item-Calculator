@@ -12,12 +12,12 @@
     <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
-    <GridPane id="leftItemGrid" fx:id="leftItemGrid" gridLinesVisible="true" stylesheets="@itemStyle.css">
+    <GridPane id="leftItemGrid" fx:id="leftItemGrid" gridLinesVisible="true" stylesheets="@style.css">
       <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
       </columnConstraints>
     </GridPane>
-    <GridPane id="rightItemGrid" fx:id="rightItemGrid" gridLinesVisible="true" stylesheets="@itemStyle.css" GridPane.columnIndex="1">
+    <GridPane id="rightItemGrid" fx:id="rightItemGrid" gridLinesVisible="true" stylesheets="@style.css" GridPane.columnIndex="1">
       <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
       </columnConstraints>
