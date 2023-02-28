@@ -1,100 +1,111 @@
 package de.leon.csgoitemcalculator.elements;
 
-import de.leon.csgoitemcalculator.controller.ItemController;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.layout.Pane;
+import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 
-/**
- * Class for visualisation of items
- */
-public class Item extends Pane implements Initializable {
+public class Item extends HBox {
 
-    private ObjectProperty<String> itemName = new SimpleObjectProperty<>();
-    private ObjectProperty<Boolean> itemActive = new SimpleObjectProperty<>();
-    private ObjectProperty<String> itemPrice = new SimpleObjectProperty<>();
-    private ObjectProperty<String> itemAmount = new SimpleObjectProperty<>();
-    private ObjectProperty<String> itemsValue = new SimpleObjectProperty<>();
+    private Label itemName;
 
-    ItemController itemController;
+    private CheckBox itemActiveCheckBox;
+
+    private TextField itemPrice;
+
+    private TextField itemAmount;
+
+    private TextField itemsValue;
 
     public Item() {
-        super();
+        //getStylesheets().add(ItemZwei.class.getResource("itemStyle.css").toExternalForm());
+
+        intUi();
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
+    public Item(String name, Boolean active, String price, String amount, String value) {
+        this();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("item-layout.fxml"));
+        setItemName(name);
+        setItemActive(active);
+        setItemPrice(price);
+        setItemAmount(amount);
+        setItemsValue(value);
+    }
 
-            itemController = new ItemController();
-            loader.setController(itemController);
-            Node node = loader.load();
+    private void intUi() {
 
-            this.getChildren().add(node);
+        itemName = new Label();
+        itemName.setText("TestItem");
+        itemActiveCheckBox = new CheckBox();
+        itemPrice = new TextField();
+        itemPrice.setEditable(false);
+        itemAmount = new TextField();
+        itemsValue = new TextField();
+        itemsValue.setEditable(false);
 
-            itemController.getItemName().textProperty().bind(itemName);
-            itemController.getItemActiveCheckBox().selectedProperty().bind(itemActive);
-            itemController.getItemAmount().textProperty().bind(itemAmount);
-            itemController.getItemPrice().textProperty().bind(itemPrice);
-            itemController.getItemsValue().textProperty().bind(itemsValue);
+        setFillHeight(true);
+        setAlignment(Pos.CENTER_LEFT);
 
-        } catch (Exception ignore) {
-        }
+        getChildren().addAll(itemName, itemActiveCheckBox, itemPrice, itemAmount, itemsValue);
     }
 
     public void setLabelLength(double length) {
-        itemController.setLabelLength(length);
+        itemName.setMinWidth(length);
     }
 
     public double getLabelLength() {
-        return itemController.getLabelLength();
+        return itemName.getWidth();
     }
 
     public String getItemName() {
-        return itemName.get();
+        return itemName.getText();
     }
 
-    public void setItemName(String itemName) {
-        this.itemName.set(itemName);
+    public void setItemName(String name) {
+        this.itemName.setText(name);
     }
 
     public Boolean getItemActive() {
-        return itemActive.get();
+        return itemActiveCheckBox.isSelected();
     }
 
-    public void setItemActive(Boolean itemActive) {
-        this.itemActive.set(itemActive);
+    public void setItemActive(Boolean active) {
+        this.itemActiveCheckBox.setSelected(active);
     }
 
     public String getItemPrice() {
-        return itemPrice.get();
+        return itemPrice.getText();
     }
 
-    public void setItemPrice(String itemPrice) {
-        this.itemPrice.set(itemPrice);
+    public void setItemPrice(String price) {
+        this.itemPrice.setText(price);
     }
 
     public String getItemAmount() {
-        return itemAmount.get();
+        return itemAmount.getText();
     }
 
-    public void setItemAmount(String itemAmount) {
-        this.itemAmount.set(itemAmount);
+    public void setItemAmount(String amount) {
+        this.itemAmount.setText(amount);
     }
 
     public String getItemsValue() {
-        return itemsValue.get();
+        return itemsValue.getText();
     }
 
-    public void setItemsValue(String itemsValue) {
-        this.itemsValue.set(itemsValue);
+    public void setItemsValue(String value) {
+        this.itemsValue.setText(value);
     }
 
+    public Item copy() {
+        return new Item(
+            this.getItemName(),
+            this.getItemActive(),
+            this.getItemPrice(),
+            this.getItemAmount(),
+            this.getItemsValue()
+        );
+    }
 }
