@@ -47,6 +47,16 @@ public class Item extends HBox {
 
     }
 
+
+
+    public void setLabelLength(double length) {
+        itemController.setLabelLength(length);
+    }
+
+    public double getLabelLength() {
+        return itemController.getLabelLength();
+    }
+
     public String getItemName() {
         return itemName.get();
     }

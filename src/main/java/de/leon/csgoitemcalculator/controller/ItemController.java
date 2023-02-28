@@ -49,4 +49,12 @@ public class ItemController implements Initializable {
     public TextField getItemsValue() {
         return itemsValue;
     }
+
+    public void setLabelLength(double length) {
+        itemName.setMinWidth(length);
+    }
+
+    public double getLabelLength() {
+        return itemName.getPrefWidth();
+    }
 }
