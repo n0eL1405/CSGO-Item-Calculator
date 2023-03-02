@@ -50,6 +50,7 @@ public class MainController implements Initializable {
         itemList.add(item.copy());
         itemList.add(item.copy());
         itemList.add(new Item("Test 12345", true, "ad", "ad", "ads"));
+        itemList.add(new Item("Test 123456789101112", true, "ad", "ad", "ads"));
 
         // adding List<Item> for each column in mainGrid
         for (int i = 0; i < mainGrid.getColumnCount(); i++) {
@@ -73,42 +74,32 @@ public class MainController implements Initializable {
             }
         });
 
-        updateLengthForAllItemLabels();
+        //updateItemGridMinWidths();
+
     }
 
-    private void updateLengthForAllItemLabels() {
+    private void updateItemGridMinWidths() {
 
-        Double[] length = {0.0};
+        Double[] biggestMinWidth = {0.0};
 
         itemArray.get(0).forEach(child -> {
-            double labelLength = child.prefWidth(-1);
+            double minWidth = child.getMinWidth();
 
-            if (labelLength > length[0]) {
-                length[0] = labelLength;
+            if (minWidth > biggestMinWidth[0]) {
+                biggestMinWidth[0] = minWidth;
             }
         });
 
         itemArray.get(1).forEach(child -> {
-            double labelLength = child.prefWidth(-1);
+            double minWidth = child.getMinWidth();
 
-            if (labelLength > length[0]) {
-                length[0] = labelLength;
+            if (minWidth > biggestMinWidth[0]) {
+                biggestMinWidth[0] = minWidth;
             }
         });
 
-        setLengthForAllItemLabels(length[0]);
-    }
-
-    private void setLengthForAllItemLabels(double length) {
-
-        itemArray.get(0).forEach(child -> {
-            child.getItemNameLabel().setPrefWidth(length);
-        });
-
-        itemArray.get(1).forEach(child -> {
-            child.getItemNameLabel().setPrefWidth(length);
-        });
-
+        leftItemGrid.setPrefWidth(biggestMinWidth[0]);
+        rightItemGrid.setPrefWidth(biggestMinWidth[0]);
     }
 
     private RowConstraints getRowConstraint(double minHeight, double prefHeight, double maxHeight, Priority vGrow, VPos vAlignment, boolean fillHeight) {

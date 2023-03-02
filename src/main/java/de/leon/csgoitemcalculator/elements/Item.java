@@ -1,14 +1,22 @@
 package de.leon.csgoitemcalculator.elements;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import lombok.Getter;
 
 public class Item extends HBox {
+
+    private final static String ID_PREFIX = "item-layout";
+
+    private final static double margin = 2.5;
+
+    private HBox rightHBox;
 
     private Label itemName;
 
@@ -36,21 +44,80 @@ public class Item extends HBox {
 
     private void intUi() {
 
+        setId(ID_PREFIX + "-mainHBox");
+
         itemName = new Label();
-        itemName.setMinWidth(Region.USE_PREF_SIZE);
+        itemName.setMaxWidth(Region.USE_PREF_SIZE);
+        itemName.setMinWidth(60);
+
+        Region labelSpacingRegion = new Region();
+        setHgrow(labelSpacingRegion, Priority.ALWAYS);
+        labelSpacingRegion.setMinWidth(margin);
+
         itemActiveCheckBox = new CheckBox();
+
         itemPrice = new TextField();
+        setHgrow(itemPrice, Priority.ALWAYS);
+        itemPrice.setAlignment(Pos.CENTER_RIGHT);
+        itemPrice.setMaxWidth(75);
+        itemPrice.setMinWidth(50);
         itemPrice.setEditable(false);
+
         itemAmount = new TextField();
+        setHgrow(itemAmount, Priority.ALWAYS);
+        itemAmount.setAlignment(Pos.CENTER);
+        itemAmount.setMaxWidth(50);
+        itemAmount.setMinWidth(40);
+
         itemsValue = new TextField();
+        setHgrow(itemsValue, Priority.ALWAYS);
+        itemsValue.setAlignment(Pos.CENTER_RIGHT);
+        itemsValue.setMaxWidth(100);
+        itemsValue.setMinWidth(50);
         itemsValue.setEditable(false);
+
+        rightHBox = new HBox();
+        setHgrow(rightHBox, Priority.ALWAYS);
+        rightHBox.setAlignment(Pos.CENTER_RIGHT);
+        rightHBox.setMinWidth(
+            itemActiveCheckBox.getMinWidth()
+                + itemPrice.getMinWidth()
+                + itemAmount.getMinWidth()
+                + itemsValue.getMinWidth()
+                + (margin * 4)
+        );
+        rightHBox.getChildren().addAll(
+            itemActiveCheckBox,
+            getMargin(),
+            itemPrice,
+            getMargin(),
+            itemAmount,
+            getMargin(),
+            itemsValue,
+            getMargin()
+        );
 
         setFillHeight(true);
         setAlignment(Pos.CENTER_LEFT);
 
-        getChildren().addAll(itemName, itemActiveCheckBox, itemPrice, itemAmount, itemsValue);
+        getChildren().addAll(
+            getMargin(),
+            itemName,
+            labelSpacingRegion,
+            rightHBox
+        );
     }
 
+    private Region getMargin() {
+        Region marginRegion = new Region();
+        marginRegion.setPrefWidth(margin);
+        marginRegion.setMinWidth(margin);
+        setHgrow(marginRegion, Priority.NEVER);
+
+        return marginRegion;
+    }
+
+    @Deprecated
     public void resetLabelLength() {
         itemName.setMinWidth(Region.USE_PREF_SIZE);
         itemName.setPrefWidth(Region.USE_PREF_SIZE);
@@ -96,6 +163,7 @@ public class Item extends HBox {
         this.itemsValue.setText(value);
     }
 
+    @Deprecated
     public Label getItemNameLabel() {
         return itemName;
     }
